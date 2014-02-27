@@ -7,6 +7,6 @@ typedef struct {
 	int length;
 } String;
 
-char *stringLeftTrim(String str);
+void stringLeftTrim(String* string);
 
 #endif // __STRING_H__
