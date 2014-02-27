@@ -45,3 +45,25 @@ void test_stringLeftTrim_should_trim_string_with_left_spaces() {
 	TEST_ASSERT_EQUAL('l', string.rawString[3]);
 	TEST_ASSERT_EQUAL('w', string.rawString[4]);
 }
+
+void test_stringLeftTrim_should_trim_string_with_left_tab() {
+	// Test fixture
+	String string = {"\thello", 0, 6};
+	int index = 0;
+	
+	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
+	
+	// Execute subject under test
+	stringLeftTrim(&string);
+	
+	//printf("Trimmed String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
+		
+	// Test the behavior or states
+	TEST_ASSERT_EQUAL(1, string.startIndex);
+	TEST_ASSERT_EQUAL(5, string.length);
+	TEST_ASSERT_EQUAL('h', string.rawString[0]);
+	TEST_ASSERT_EQUAL('e', string.rawString[1]);
+	TEST_ASSERT_EQUAL('l', string.rawString[2]);
+	TEST_ASSERT_EQUAL('l', string.rawString[3]);
+	TEST_ASSERT_EQUAL('o', string.rawString[4]);
+}
