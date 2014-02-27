@@ -8,5 +8,6 @@ typedef struct {
 } String;
 
 void stringLeftTrim(String* string);
+void stringRightTrim(String *string);
 
 #endif // __STRING_H__
