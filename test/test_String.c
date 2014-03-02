@@ -133,3 +133,35 @@ void test_stringRightTrim_should_trim_string_with_right_tab() {
 	TEST_ASSERT_EQUAL('l', string.rawString[string.startIndex + 3]);
 	TEST_ASSERT_EQUAL('o', string.rawString[string.startIndex + 4]);
 }
+
+void test_chopString_should_chop_data_and_return_startIndex_and_length_for_each_of_them() {
+	String oneLineString = {"#define MAX 10", 0, 14};
+	// startIndex			 ^      ^   ^
+	
+	String *choppedString = {0};
+	
+	choppedString = chopString(oneLineString);
+	
+	// First word
+	TEST_ASSERT_EQUAL(0, choppedString[0].startIndex);
+	TEST_ASSERT_EQUAL(7, choppedString[0].length);	
+	
+	// Second word
+	TEST_ASSERT_EQUAL(8, choppedString[1].startIndex);
+	TEST_ASSERT_EQUAL(3, choppedString[1].length);
+
+	// Third word
+	TEST_ASSERT_EQUAL(12, choppedString[2].startIndex);
+	TEST_ASSERT_EQUAL(2, choppedString[2].length);
+	
+	free(choppedString);
+}
+
+
+
+
+
+
+
+
+
