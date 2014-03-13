@@ -134,13 +134,14 @@ void test_stringRightTrim_should_trim_string_with_right_tab() {
 	TEST_ASSERT_EQUAL('o', string.rawString[string.startIndex + 4]);
 }
 
-void test_chopString_should_chop_data_and_return_startIndex_and_length_for_each_of_them() {
+void test_chopLineIntoWords_should_chop_data_and_return_startIndex_and_length_for_each_of_them() {
 	String oneLineString = {"#define MAX 10", 0, 14};
 	// startIndex			 ^      ^   ^
+	//						[0]	   [8] [12]
 	
 	String *choppedString = {0};
 	
-	choppedString = chopString(oneLineString);
+	choppedString = chopLineIntoWords(oneLineString);
 	
 	// First word
 	TEST_ASSERT_EQUAL(0, choppedString[0].startIndex);
@@ -157,10 +158,27 @@ void test_chopString_should_chop_data_and_return_startIndex_and_length_for_each_
 	free(choppedString);
 }
 
+void test_getWordAndUpdate_should_get_the_first_word_from_a_line_of_instruction() {
+	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
 
-
-
-
+	subString = getWordAndUpdate(&oneLineString, " ,;");
+		
+	TEST_ASSERT_EQUAL('m', subString->rawString[0]);
+	TEST_ASSERT_EQUAL('o', subString->rawString[1]);
+	TEST_ASSERT_EQUAL('v', subString->rawString[2]);
+	TEST_ASSERT_EQUAL('w', subString->rawString[3]);
+	TEST_ASSERT_EQUAL('f', subString->rawString[4]);
+	TEST_ASSERT_NOT_EQUAL(' ', subString->rawString[5]);
+	TEST_ASSERT_NOT_EQUAL('0', subString->rawString[6]);
+	TEST_ASSERT_NOT_EQUAL('x', subString->rawString[7]);
+	TEST_ASSERT_NOT_EQUAL('1', subString->rawString[8]);
+	TEST_ASSERT_NOT_EQUAL('0', subString->rawString[9]);
+	
+	TEST_ASSERT_EQUAL(5, oneLineString.startIndex);
+	TEST_ASSERT_EQUAL(5, oneLineString.length);
+	TEST_ASSERT_EQUAL(0, subString->startIndex);
+	TEST_ASSERT_EQUAL(5, subString->length);
+}
 
 
 

@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+String *subString;
+
 /**
  * Trim out the left space/tab of string
  *
@@ -40,13 +42,13 @@ void stringRightTrim(String *string) {
  *
  * stringCopy might be used to copy a word from a string with parsing startIndex and length to it
 */
-String *chopString(String string) {
+String *chopLineIntoWords(String line) {
 	String *list = malloc(sizeof(String));
 	int word = 0;
 	int i = 0;
 	
-	for(i = string.startIndex, list[word].startIndex = 0, list[word].length = 0; i < string.length; i++) {
-		if (string.rawString[i] == ' ' || string.rawString[i] == '\t') {
+	for(i = line.startIndex, list[word].startIndex = 0, list[word].length = 0; i < line.length; i++) {
+		if (line.rawString[i] == ' ' || line.rawString[i] == '\t') {
 			word++;
 			list[word].startIndex = i;
 			list[word].length = 0;
@@ -56,11 +58,39 @@ String *chopString(String string) {
 		}
 	}
 	
-	// only startIndex and length are modified
-	// display result, will be deleted later on
-	printf("First Word: Start Index: %d, Length: %d\n", list[0].startIndex, list[0].length);
-	printf("Second Word: Start Index: %d, Length: %d\n", list[1].startIndex, list[1].length);
-	printf("Third Word: Start Index: %d, Length: %d\n", list[2].startIndex, list[2].length);
-	
 	return list;
+}
+
+/**
+ * Get word from a line according to delimiters and update the status of the line (startIndex and length)
+ *
+ * Input:
+ *	line		A line of string
+ *	delimiter	Symbol to separate words
+ *
+ * Return:
+ *	word		First word from a line
+*/
+String *getWordAndUpdate(String *line, char *delimiter) {
+	String *word = malloc(sizeof(String));
+	int i;
+	
+	stringLeftTrim(line);
+	
+	word->length = 0;
+	word->startIndex = 0;
+	
+	for(i = line->startIndex; i < line->length; i++) {
+		if(line->rawString[i] != ' ') {
+			word->rawString[i] = line->rawString[i];
+			line->startIndex++;
+			word->length++;
+		} else {
+			break;
+		}
+	}
+	
+	line->length = line->length - i;
+	
+	return word;
 }
