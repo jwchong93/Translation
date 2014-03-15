@@ -1,5 +1,5 @@
-#ifndef __STRING_H__
-#define __STRING_H__
+#ifndef __STRING_OBJECT_H__
+#define __STRING_OBJECT_H__
 
 typedef struct {
 	char *rawString;
@@ -10,10 +10,12 @@ typedef struct {
 extern String *subString;
 
 // Function Prototype
+String *stringCreate(char *string);
+
 void stringLeftTrim(String* string);
 void stringRightTrim(String *string);
 
 String *chopLineIntoWords(String line);
 String *getWordAndUpdate(String *line, char *delimiter);
 
-#endif // __STRING_H__
+#endif // __STRING_OBJECT_H__

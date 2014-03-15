@@ -1,16 +1,39 @@
 #include "unity.h"
-#include "String.h"
+#include "StringObject.h"
 #include <stdio.h>
 #include <malloc.h>
 
 void setUp() {}
 void tearDown() {}
 
+void test_stringCreate_should_create_string_object() {
+	String *string;
+	
+	string = stringCreate("h");
+	
+	TEST_ASSERT_NOT_NULL(string);
+	TEST_ASSERT_EQUAL(0, string->startIndex);
+	TEST_ASSERT_EQUAL(1, string->length);
+	
+	free(string);
+}
+
+void test_stringCreate_given_char_string_hello_should_create_string_object_hello_with_correct_start_index_and_length() {
+	String *string;
+	
+	string = stringCreate("hello");
+	
+	TEST_ASSERT_NOT_NULL(string);
+	TEST_ASSERT_EQUAL(0, string->startIndex);
+	TEST_ASSERT_EQUAL(5, string->length);
+	
+	free(string);
+}
+
 void test_stringLeftTrim_should_trim_string_with_one_left_space() {
 	// Test fixture
 	String string = {" m", 0, 2};
-	int index = 0;
-	
+
 	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
 	// Execute subject under test
@@ -27,8 +50,7 @@ void test_stringLeftTrim_should_trim_string_with_one_left_space() {
 void test_stringLeftTrim_should_trim_string_with_left_spaces() {
 	// Test fixture
 	String string = {"   movlw", 0, 8};
-	int index = 0;
-	
+
 	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
 	// Execute subject under test
@@ -49,8 +71,7 @@ void test_stringLeftTrim_should_trim_string_with_left_spaces() {
 void test_stringLeftTrim_should_trim_string_with_left_tab() {
 	// Test fixture
 	String string = {"\thello", 0, 6};
-	int index = 0;
-	
+
 	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
 	// Execute subject under test
@@ -68,10 +89,26 @@ void test_stringLeftTrim_should_trim_string_with_left_tab() {
 	TEST_ASSERT_EQUAL('o', string.rawString[string.startIndex + 4]);
 }
 
+void test_stringLeftTrim_should_do_nothing_on_a_null_string() {
+	// Test fixture
+	String string = {"", 0, 0};
+	
+	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
+	
+	// Execute subject under test
+	stringLeftTrim(&string);
+	
+	//printf("Trimmed String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
+		
+	// Test the behavior or states
+	TEST_ASSERT_EQUAL(0, string.startIndex);
+	TEST_ASSERT_EQUAL(0, string.length);
+	TEST_ASSERT_EQUAL(0, string.rawString[string.startIndex]);
+}
+
 void test_stringRightTrim_should_trim_string_with_one_right_space() {
 	// Test fixture
 	String string = {"hello ", 0, 6};
-	int index = 0;
 	
 	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
@@ -93,7 +130,6 @@ void test_stringRightTrim_should_trim_string_with_one_right_space() {
 void test_stringRightTrim_should_trim_string_with_right_spaces() {
 	// Test fixture
 	String string = {"hello   ", 0, 8};
-	int index = 0;
 	
 	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
@@ -115,7 +151,6 @@ void test_stringRightTrim_should_trim_string_with_right_spaces() {
 void test_stringRightTrim_should_trim_string_with_right_tab() {
 	// Test fixture
 	String string = {"hello\t", 0, 6};
-	int index = 0;
 	
 	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
@@ -134,52 +169,59 @@ void test_stringRightTrim_should_trim_string_with_right_tab() {
 	TEST_ASSERT_EQUAL('o', string.rawString[string.startIndex + 4]);
 }
 
-void test_chopLineIntoWords_should_chop_data_and_return_startIndex_and_length_for_each_of_them() {
-	String oneLineString = {"#define MAX 10", 0, 14};
-	// startIndex			 ^      ^   ^
-	//						[0]	   [8] [12]
+void test_stringRightTrim_should_do_nothing_on_a_null_string() {
+	// Test fixture
+	String string = {"", 0, 0};
 	
-	String *choppedString = {0};
+	//printf("Raw String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
 	
-	choppedString = chopLineIntoWords(oneLineString);
+	// Execute subject under test
+	stringLeftTrim(&string);
 	
-	// First word
-	TEST_ASSERT_EQUAL(0, choppedString[0].startIndex);
-	TEST_ASSERT_EQUAL(7, choppedString[0].length);	
-	
-	// Second word
-	TEST_ASSERT_EQUAL(8, choppedString[1].startIndex);
-	TEST_ASSERT_EQUAL(3, choppedString[1].length);
-
-	// Third word
-	TEST_ASSERT_EQUAL(12, choppedString[2].startIndex);
-	TEST_ASSERT_EQUAL(2, choppedString[2].length);
-	
-	free(choppedString);
+	//printf("Trimmed String: %s, Start Index: %d, Length: %d\n", string.rawString, string.startIndex, string.length);
+		
+	// Test the behavior or states
+	TEST_ASSERT_EQUAL(0, string.startIndex);
+	TEST_ASSERT_EQUAL(0, string.length);
+	TEST_ASSERT_EQUAL(0, string.rawString[string.startIndex]);
 }
 
+/*
 void test_getWordAndUpdate_should_get_the_first_word_from_a_line_of_instruction() {
 	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
 
-	subString = getWordAndUpdate(&oneLineString, " ,;");
+	subString = getWordAndUpdate(&oneLineString, " ");
 		
-	TEST_ASSERT_EQUAL('m', subString->rawString[0]);
-	TEST_ASSERT_EQUAL('o', subString->rawString[1]);
-	TEST_ASSERT_EQUAL('v', subString->rawString[2]);
-	TEST_ASSERT_EQUAL('w', subString->rawString[3]);
-	TEST_ASSERT_EQUAL('f', subString->rawString[4]);
-	TEST_ASSERT_NOT_EQUAL(' ', subString->rawString[5]);
-	TEST_ASSERT_NOT_EQUAL('0', subString->rawString[6]);
-	TEST_ASSERT_NOT_EQUAL('x', subString->rawString[7]);
-	TEST_ASSERT_NOT_EQUAL('1', subString->rawString[8]);
-	TEST_ASSERT_NOT_EQUAL('0', subString->rawString[9]);
-	
 	TEST_ASSERT_EQUAL(5, oneLineString.startIndex);
 	TEST_ASSERT_EQUAL(5, oneLineString.length);
 	TEST_ASSERT_EQUAL(0, subString->startIndex);
 	TEST_ASSERT_EQUAL(5, subString->length);
+	
+	free(subString);
 }
 
 
+void test_getWordAndUpdate_should_get_the_first_and_second_word_from_a_line_of_instruction() {
+	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
+
+	subString = getWordAndUpdate(&oneLineString, " ");
+		
+	TEST_ASSERT_EQUAL(5, oneLineString.startIndex);
+	TEST_ASSERT_EQUAL(5, oneLineString.length);
+	TEST_ASSERT_EQUAL(0, subString->startIndex);
+	TEST_ASSERT_EQUAL(5, subString->length);
+	
+	free(subString);
+	
+	subString = getWordAndUpdate(&oneLineString, " ");
+	
+	TEST_ASSERT_EQUAL(10, oneLineString.startIndex);
+	TEST_ASSERT_EQUAL(0, oneLineString.length);
+	TEST_ASSERT_EQUAL(6, subString->startIndex);
+	TEST_ASSERT_EQUAL(4, subString->length);
+	
+	free(subString);
+}
+*/
 
 
