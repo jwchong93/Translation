@@ -186,7 +186,6 @@ void test_stringRightTrim_should_do_nothing_on_a_null_string() {
 	TEST_ASSERT_EQUAL(0, string.rawString[string.startIndex]);
 }
 
-/*
 void test_getWordAndUpdate_should_get_the_first_word_from_a_line_of_instruction() {
 	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
 
@@ -199,7 +198,6 @@ void test_getWordAndUpdate_should_get_the_first_word_from_a_line_of_instruction(
 	
 	free(subString);
 }
-
 
 void test_getWordAndUpdate_should_get_the_first_and_second_word_from_a_line_of_instruction() {
 	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
@@ -222,6 +220,5 @@ void test_getWordAndUpdate_should_get_the_first_and_second_word_from_a_line_of_i
 	
 	free(subString);
 }
-*/
 
 
