@@ -62,7 +62,8 @@ void stringRightTrim(String *string) {
 String *getWordAndUpdate(String *line, char *delimiter) {
 	String *word = malloc(sizeof(String));
 	int i = 0; // Act as loop counter to avoid access beyond end of string
-
+	int j = 0;
+	
 	stringLeftTrim(line);
 
 	word->rawString = line->rawString;
@@ -71,7 +72,7 @@ String *getWordAndUpdate(String *line, char *delimiter) {
 	
 	i = 0;
 	while(i < line->length) {
-		if(line->rawString[line->startIndex] != *delimiter) {
+		if(line->rawString[line->startIndex] != delimiter[0]) {
 			line->startIndex++;
 			word->length++;
 			i++;
@@ -80,7 +81,7 @@ String *getWordAndUpdate(String *line, char *delimiter) {
 				line->startIndex++;
 				word->startIndex++;
 				i++;
-			} else {
+			} else { // word->length > 0
 				break;
 			}
 		}

@@ -186,7 +186,7 @@ void test_stringRightTrim_should_do_nothing_on_a_null_string() {
 	TEST_ASSERT_EQUAL(0, string.rawString[string.startIndex]);
 }
 
-void test_getWordAndUpdate_should_get_the_first_word_from_a_line_with_space_delimiter() {
+void xtest_getWordAndUpdate_should_get_the_first_word_from_a_line_with_space_delimiter() {
 	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
 
 	subString = getWordAndUpdate(&oneLineString, " ");
@@ -204,7 +204,7 @@ void test_getWordAndUpdate_should_get_the_first_word_from_a_line_with_space_deli
 	free(subString);
 }
 
-void test_getWordAndUpdate_should_get_the_first_and_second_word_from_a_line_with_space_delimiter() {
+void xtest_getWordAndUpdate_should_get_the_first_and_second_word_from_a_line_with_space_delimiter() {
 	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
 
 	subString = getWordAndUpdate(&oneLineString, " ");
@@ -235,7 +235,7 @@ void test_getWordAndUpdate_should_get_the_first_and_second_word_from_a_line_with
 	free(subString);
 }
 
-void test_getWordAndUpdate_should_get_a_zero_length_word_when_getting_words_beyond_the_line() {
+void xtest_getWordAndUpdate_should_get_a_zero_length_word_when_getting_words_beyond_the_line() {
 	String oneLineString = {.rawString = "movwf 0x10", .startIndex = 0, .length = 10};
 
 	subString = getWordAndUpdate(&oneLineString, " ");
@@ -275,7 +275,7 @@ void test_getWordAndUpdate_should_get_a_zero_length_word_when_getting_words_beyo
 	free(subString);
 }
 
-void test_getWordAndUpdate_should_get_three_words_from_a_line_with_space_delimiter() {
+void xtest_getWordAndUpdate_should_get_three_words_from_a_line_with_space_delimiter() {
 	String oneLineString = {.rawString = "wow wow wow", .startIndex = 0, .length = 11};
 
 	subString = getWordAndUpdate(&oneLineString, " ");
@@ -315,7 +315,7 @@ void test_getWordAndUpdate_should_get_three_words_from_a_line_with_space_delimit
 	free(subString);
 }
 
-void test_getWordAndUpdate_should_get_two_words_from_a_line_with_3_consequence_dot_delimiters() {
+void xtest_getWordAndUpdate_should_get_two_words_from_a_line_with_3_consequence_dot_delimiters() {
 	String oneLineString = {.rawString = "hello...world", .startIndex = 0, .length = 13};
 	
 	subString = getWordAndUpdate(&oneLineString, ".");
@@ -337,7 +337,7 @@ void test_getWordAndUpdate_should_get_two_words_from_a_line_with_3_consequence_d
 	free(subString);
 }
 
-void test_getWordAndUpdate_should_get_three_words_from_a_line_with_consequence_dot_delimiters() {
+void xtest_getWordAndUpdate_should_get_three_words_from_a_line_with_consequence_dot_delimiters() {
 	String oneLineString = {.rawString = "ice.....ice.....ice.....", .startIndex = 0, .length = 24};
 	
 	subString = getWordAndUpdate(&oneLineString, ".");
@@ -366,4 +366,23 @@ void test_getWordAndUpdate_should_get_three_words_from_a_line_with_consequence_d
 	TEST_ASSERT_EQUAL(3, subString->length);
 	
 	free(subString);
+}
+
+void xtest_getWordAndUpdate_should_get_three_words_from_a_line_with_2_different_delimiters() {
+	String oneLineString = {.rawString = "fire, ice", .startIndex = 0, .length = 9};
+	
+	subString = getWordAndUpdate(&oneLineString, " ,");
+		
+	TEST_ASSERT_EQUAL(0, subString->startIndex);
+	TEST_ASSERT_EQUAL(4, subString->length);
+	
+	free(subString);
+	
+	subString = getWordAndUpdate(&oneLineString, " ,");
+	
+	TEST_ASSERT_EQUAL(6, subString->startIndex);
+	TEST_ASSERT_EQUAL(3, subString->length);
+	
+	free(subString);
+
 }
