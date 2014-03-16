@@ -7,15 +7,25 @@ typedef struct {
 	int length;
 } String;
 
+//Will be update when discuss with bing xuan group.
+typedef enum {INVALID_INDENTIFIER,UNKNOWN_OPERATOR} Error;
+
+typedef struct{
+	char *rawString;
+	char *message;
+	int position;
+}ErrorMessage;
+
 extern String *subString;
+extern ErrorMessage *errorMessage;
 
 // Function Prototype
-String *stringCreate(char *string);
+String *stringCreate(char *expression) ;
+void stringCopy(char *source, char*destination, int startLocation, int length);
 
 void stringLeftTrim(String* string);
 void stringRightTrim(String *string);
 
-String *chopLineIntoWords(String line);
 String *getWordAndUpdate(String *line, char *delimiter);
 
 #endif // __STRING_OBJECT_H__

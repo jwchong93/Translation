@@ -4,24 +4,26 @@
 #include <malloc.h>
 
 String *subString;
+ErrorMessage *errorMessage;
 
-/**
- * Create a string object
- *
- * Input:
- * 	string			char string that will create into stringObject
- * 
- * Return:
- * 	stringObject	pointer of the string object created
- */
-String *stringCreate(char *string) {
-	String *stringObject = malloc(sizeof(String));
+/*
+	This function will generate a string
 	
-	stringObject->rawString = string;
-	stringObject->startIndex = 0;
-	stringObject->length = strlen(string);
+	Input: *expression 		which contain the string(expression)
+	Output: none
+	return: Tokenizer 		which pass to the getToken to generate token.
+*/
+String *stringCreate(char *expression) {
+	int length = strlen(expression);
+	String *newString = malloc (sizeof(String));
+	char *newRawString = malloc (length+1);
 	
-	return stringObject;
+	stringCopy(expression, newRawString, 0, length);
+	newString->rawString = newRawString;
+	newString->startIndex = 0;
+	newString->length = strlen(newString->rawString);
+	
+	return newString;
 }
 
 /**
@@ -89,4 +91,28 @@ String *getWordAndUpdate(String *line, char *delimiter) {
 	line->length = line->length - i;
 	
 	return word;
+}
+
+/*
+	This function is to copy string from the middle of the string for specific length.
+	
+	input :
+	*source				The string that contain the wanted string.
+	startLocation		The start location of the wanted string in source
+	length 				The length of the wanted string 
+	
+	output:
+	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
+	
+	return:
+	none
+*/
+void stringCopy(char *source, char*destination, int startLocation, int length) {
+	int i, j = 0;
+	
+	for (i = 0; i < length; i++, j++) {
+		destination[j]= source[startLocation+i];
+	}
+	
+	destination[j] = '\0';
 }
