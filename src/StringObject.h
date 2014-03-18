@@ -1,23 +1,13 @@
 #ifndef __STRING_OBJECT_H__
 #define __STRING_OBJECT_H__
-
 typedef struct {
 	char *rawString;
 	int startIndex;
 	int length;
 } String;
 
-//Will be update when discuss with bing xuan group.
-typedef enum {INVALID_INDENTIFIER,UNKNOWN_OPERATOR} Error;
 
-typedef struct{
-	char *rawString;
-	char *message;
-	int position;
-}ErrorMessage;
-
-extern String *subString;
-extern ErrorMessage *errorMessage;
+String *subString;
 
 // Function Prototype
 String *stringCreate(char *expression) ;
@@ -29,3 +19,5 @@ void stringRightTrim(String *string);
 String *getWordAndUpdate(String *line, char *delimiter);
 
 #endif // __STRING_OBJECT_H__
+
+ 
