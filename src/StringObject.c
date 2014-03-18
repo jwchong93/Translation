@@ -7,12 +7,12 @@ String *subString;
 ErrorMessage *errorMessage;
 
 /*
-	This function will generate a string
-	
-	Input: *expression 		which contain the string(expression)
-	Output: none
-	return: Tokenizer 		which pass to the getToken to generate token.
-*/
+ *	This function will generate a string
+ *	
+ *	Input: *expression 		which contain the string(expression)
+ *	Output: none
+ *	return: Tokenizer 		which pass to the getToken to generate token.
+ */
 String *stringCreate(char *expression) {
 	int length = strlen(expression);
 	String *newString = malloc (sizeof(String));
@@ -24,6 +24,30 @@ String *stringCreate(char *expression) {
 	newString->length = strlen(newString->rawString);
 	
 	return newString;
+}
+
+/*
+ *	This function is to copy string from the middle of the string for specific length.
+ *	
+ *	input :
+ *	*source				The string that contain the wanted string.
+ *	startLocation		The start location of the wanted string in source
+ *	length 				The length of the wanted string 
+ *	
+ *	output:
+ *	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
+ *	
+ *	return:
+ *	none
+ */
+void stringCopy(char *source, char*destination, int startLocation, int length) {
+	int i, j = 0;
+	
+	for (i = 0; i < length; i++, j++) {
+		destination[j]= source[startLocation+i];
+	}
+	
+	destination[j] = '\0';
 }
 
 /**
@@ -39,7 +63,7 @@ void stringLeftTrim(String *string) {
 	}
 }
 
-/**
+/*
  * Trim out the right space/tab of string
  *
  * Input:
@@ -51,7 +75,7 @@ void stringRightTrim(String *string) {
 	}
 }
 
-/**
+/*
  * Get word from a line according to delimiters and update the status of the line (startIndex and length)
  *
  * Input:
@@ -94,26 +118,3 @@ String *getWordAndUpdate(String *line, char *delimiter) {
 	return word;
 }
 
-/*
-	This function is to copy string from the middle of the string for specific length.
-	
-	input :
-	*source				The string that contain the wanted string.
-	startLocation		The start location of the wanted string in source
-	length 				The length of the wanted string 
-	
-	output:
-	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
-	
-	return:
-	none
-*/
-void stringCopy(char *source, char*destination, int startLocation, int length) {
-	int i, j = 0;
-	
-	for (i = 0; i < length; i++, j++) {
-		destination[j]= source[startLocation+i];
-	}
-	
-	destination[j] = '\0';
-}
