@@ -6,11 +6,11 @@
 
 
 /*
- *	This function will generate a string
- *	
- *	Input: *expression 		which contain the string(expression)
- *	Output: none
- *	return: Tokenizer 		which pass to the getToken to generate token.
+ * This function will generate a string
+ *
+ * Input: *expression 		which contain the string(expression)
+ * Output: none
+ * return: Tokenizer 		which pass to the getToken to generate token.
  */
 String *stringCreate(char *expression) {
 	int length = strlen(expression);
@@ -26,18 +26,18 @@ String *stringCreate(char *expression) {
 }
 
 /*
- *	This function is to copy string from the middle of the string for specific length.
+ * This function is to copy string from the middle of the string for specific length.
+ * 
+ * input :
+ * *source				The string that contain the wanted string.
+ * startLocation		The start location of the wanted string in source
+ * length 				The length of the wanted string 
+ * 
+ * output:
+ * *destination 		The wanted string will be copied to this string.(must be in array to make this work)
  *	
- *	input :
- *	*source				The string that contain the wanted string.
- *	startLocation		The start location of the wanted string in source
- *	length 				The length of the wanted string 
- *	
- *	output:
- *	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
- *	
- *	return:
- *	none
+ * return:
+ * none
  */
 void stringCopy(char *source, char*destination, int startLocation, int length) {
 	int i, j = 0;
@@ -49,7 +49,7 @@ void stringCopy(char *source, char*destination, int startLocation, int length) {
 	destination[j] = '\0';
 }
 
-/**
+/*
  * Trim out the left space/tab of string
  *
  * Input:
@@ -86,10 +86,8 @@ void stringRightTrim(String *string) {
  */
 String *getWordAndUpdate(String *line, char *delimiter) {
 	String *word = malloc(sizeof(String));
-	int i = 0; // Act as loop counter to avoid access beyond end of string
-	int j = 0;
-	
-	stringLeftTrim(line);
+	int i; // Act as loop counter to avoid access beyond end of string
+	int j;
 
 	word->rawString = line->rawString;
 	word->startIndex = line->startIndex;
@@ -97,20 +95,19 @@ String *getWordAndUpdate(String *line, char *delimiter) {
 	
 	i = 0;
 	while(i < line->length) {
-		if(line->rawString[line->startIndex] != delimiter[0]) {
-			line->startIndex++;
-			word->length++;
-			i++;
-		} else { // line->rawString[line->startIndex] == *delimiter
-			if(word->length == 0) {
+		for(j = 0; delimiter[j] != 0; j++) {
+			if(line->rawString[line->startIndex] == delimiter[j]) {
 				line->startIndex++;
-				word->startIndex++;
 				i++;
-			} else { // word->length > 0
-				break;
+				goto finish;
 			}
 		}
+		line->startIndex++;
+		word->length++;
+		i++;
 	}
+	
+finish:
 	
 	line->length = line->length - i;
 	
