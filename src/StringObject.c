@@ -3,8 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 
-String *subString;
-ErrorMessage *errorMessage;
+
 
 /*
 	This function will generate a string
